@@ -86,7 +86,7 @@ const data = [
     const thead = document.createElement('thead');
     thead.insertAdjacentHTML('beforeend', `
     <tr>
-    <th class = "delete" type="button">Удалить</th>
+    <th class="delete" type="button">Удалить</th>
     <th>Имя</th>
     <th>Фамилия</th>
     <th>Телефон</th>
@@ -112,19 +112,29 @@ const data = [
         <h2 class="form-title">Добавить контакт</h2>
         <div class="form-group">
             <label class="form-label" for="name">Имя:</label>
-            <input class="form-input" name="name" id="name" tapy="text" required>
+            <input class="form-input" 
+            name="name" 
+            id="name" 
+            type="text" 
+            required>
         </div>
         <div class="form-group">
             <label class="form-label" for="surname">Фамилия:</label>
-            <input class="form-input" name="surname" id="surname" tapy="text" required>
+            <input class="form-input" 
+            name="surname" 
+            id="surname" 
+            type="text" 
+            required>
         </div>
         <div class="form-group">
             <label class="form-label" for="phone">Телефон:</label>
-            <input class="form-input" name="phone" id="phone" tapy="number" required>
+            <input class="form-input" 
+            name="phone" 
+            id="phone" 
+            type="number" 
+            required>
         </div>
     `);
-
-    
 
     const buttonGroup = createButtonsGroup([
       {
@@ -150,7 +160,7 @@ const data = [
   };
 
 
-  const renederPhoneBook = (app, title) => {
+  const renderPhoneBook = (app, title) => {
     const header = createHeader();
     const logo = createLogo(title);
     const main = createMain();
@@ -168,8 +178,7 @@ const data = [
     ]);
     const table = createTable();
     const form = createForm();
-    const footer = creatFooter(title);
-
+    const footer = createFooter(title);
 
     header.headerContainer.append(logo);
     main.mainContainer.append(buttonGroup.btnWrapper, table, form.overlay);
@@ -179,6 +188,7 @@ const data = [
       list: table.tbody,
       logo,
       btnAdd: buttonGroup.btns[0],
+      btnDel: buttonGroup.btns[1],
       formOverlay: form.overlay,
       form: form.form,
     };
@@ -186,12 +196,13 @@ const data = [
 
   const createRow = ({name: firstName, surname, phone}) => {
     const tr = document.createElement('tr');
+    tr.classList.add('contact');
 
     const tdDel = document.createElement('td');
     tdDel.classList.add('delete');
     const buttonDel = document.createElement('button');
-    tdDel.append(buttonDel);
     buttonDel.classList.add('del-icon');
+    tdDel.append(buttonDel);
 
     const tdName = document.createElement('td');
     tdName.textContent = firstName;
@@ -217,7 +228,7 @@ const data = [
     return tr;
   };
 
-  const creatFooter = (title) => {
+  const createFooter = (title) => {
     const footer = document.createElement('footer');
     footer.classList.add('footer');
     footer.textContent = `Все права защищены ©${title}`;
@@ -245,9 +256,16 @@ const data = [
 
   const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
-    const phoneBook = renederPhoneBook(app, title);
+    const phoneBook = renderPhoneBook(app, title);
 
-    const {list, logo, btnAdd, formOverlay, form} = phoneBook;
+    const {
+      list,
+      logo,
+      btnAdd,
+      formOverlay,
+      form,
+      btnDel,
+    } = phoneBook;
 
     // Функционал
     const allRow = renderContacts(list, data);
@@ -258,17 +276,29 @@ const data = [
       formOverlay.classList.add('is-visible');
     });
 
-    form.addEventListener('click', event => {
-      event.stopPropagation();
-    });
-
-    formOverlay.addEventListener('click', () => {
-      formOverlay.classList.remove('is-visible');
+    formOverlay.addEventListener('click', e => {
+      const target = e.target;
+      if (target === formOverlay || target.closest('.close')) {
+        formOverlay.classList.remove('is-visible');
+      }
     });
 
     const buttonClose = document.querySelector('.close');
     buttonClose.addEventListener('click', () => {
       formOverlay.classList.remove('is-visible');
+    });
+
+    btnDel.addEventListener('click', () => {
+      document.querySelectorAll('.delete').forEach(del => {
+        del.classList.toggle('is-visible');
+      });
+    });
+
+    list.addEventListener('click', e => {
+      const target = e.target;
+      if (target.closest('.del-icon')) {
+        target.closest('.contact').remove();
+      }
     });
   };
 
