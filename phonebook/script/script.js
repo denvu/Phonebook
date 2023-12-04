@@ -86,7 +86,7 @@ const data = [
     const thead = document.createElement('thead');
     thead.insertAdjacentHTML('beforeend', `
     <tr>
-    <th class="delete" type="button">Удалить</th>
+    <th class="delete">Удалить</th>
     <th>Имя</th>
     <th>Фамилия</th>
     <th>Телефон</th>
@@ -263,7 +263,6 @@ const data = [
       logo,
       btnAdd,
       formOverlay,
-      form,
       btnDel,
     } = phoneBook;
 
@@ -282,7 +281,7 @@ const data = [
         formOverlay.classList.remove('is-visible');
       }
     });
-
+    
     const buttonClose = document.querySelector('.close');
     buttonClose.addEventListener('click', () => {
       formOverlay.classList.remove('is-visible');
