@@ -130,3 +130,10 @@ body {
   color: #fff;
   text-align: center;
 }
+
+.btn-redact {
+  background-color: rgba(85, 85, 85, 0.349);
+  color: #6c6a6a;
+  border: none;
+  border-radius: 5px;
+}
