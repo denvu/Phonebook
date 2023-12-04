@@ -281,11 +281,6 @@ const data = [
         formOverlay.classList.remove('is-visible');
       }
     });
-    
-    const buttonClose = document.querySelector('.close');
-    buttonClose.addEventListener('click', () => {
-      formOverlay.classList.remove('is-visible');
-    });
 
     btnDel.addEventListener('click', () => {
       document.querySelectorAll('.delete').forEach(del => {
